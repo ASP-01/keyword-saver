@@ -241,7 +241,28 @@ document.addEventListener("DOMContentLoaded", () => {
     debugBox.textContent = JSON.stringify(data, null, 2);
     debugBox.style.display = debugBox.style.display === "block" ? "none" : "block";
   });
-  
+  document.getElementById("cloudBackupBtn").addEventListener("click", () => {
+  const data = JSON.parse(localStorage.getItem("keywords") || "[]");
+  if (data.length === 0) {
+    showToast("No keywords to backup");
+    return;
+  }
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `keyword_backup_${new Date().toISOString().slice(0, 10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast("Backup downloaded");
+});
+
+// ✅ Restore from File (uses same import logic)
+document.getElementById("cloudRestoreBtn").addEventListener("click", () => {
+  document.getElementById("importFile").click(); // Triggers the import file input
+});
+
 
   // ✅ Load first time
   loadKeywords();
