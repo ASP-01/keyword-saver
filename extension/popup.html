@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Keyword Saver</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 15px;
+      width: 320px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .toggle-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+  gap: 8px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.3s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 14px;
+  width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #66ccff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+    h3 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    input, select, button {
+      width: 100%;
+      margin: 6px 0;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      box-sizing: border-box;
+      border: 1px solid;
+    }
+
+    button {
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    li {
+      padding: 8px;
+      margin-bottom: 6px;
+      border-radius: 6px;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      border: 1px solid;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    #exportSection {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+
+#exportFormat {
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 2px 6px;
+}
+
+#exportBtn {
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #66ccff;
+  border: none;
+  
+}
+
+#exportSection {
+  margin-top: 20px;
+  padding: 12px;
+  border-top: 1px solid #ccc;
+  font-size: 14px;
+}
+
+body.dark #exportSection {
+  border-top: 1px solid #555;
+}
+
+#exportSection h3 {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+#exportSection label {
+  display: inline-block;
+  width: 90px;
+  margin-bottom: 6px;
+}
+
+#exportFilename,
+#exportFormat {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: calc(100% - 100px);
+}
+
+body.dark #exportFilename,
+body.dark #exportFormat {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #666;
+}
+
+#exportBtn,
+#previewBtn {
+  margin-top: 10px;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  background-color: #66ccff;
+  color: #000;
+}
+
+body.dark #exportBtn,
+body.dark #previewBtn {
+  background-color: #444;
+  color: #fff;
+}
+
+#exportPreview {
+  margin-top: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+}
+
+body.dark #exportPreview {
+  background-color: #222;
+  color: #eee;
+  border: 1px solid #555;
+}
+
+
+body.dark #exportBtn {
+  background-color: #444;
+  color: #fff;
+}
+
+
+
+    li a {
+      word-break: break-word;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    li button {
+      font-size: 12px;
+      width: fit-content;
+      padding: 4px 8px;
+      align-self: flex-end;
+      border: none;
+      border-radius: 4px;
+    }
+
+    body.light {
+      background-color: #fefefe;
+      color: #111;
+    }
+
+    body.light h3 { color: #007bff; }
+    body.light input, body.light select {
+      background-color: #fff;
+      color: #111;
+      border-color: #ccc;
+    }
+
+    .tag {
+  background-color: #dfefff;
+  border-radius: 5px;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-right: 4px;
+  cursor: pointer;
+  display: inline-block;
+}
+.tag:hover {
+  background-color: #c2e0ff;
+}
+
+/* Tag styling for both themes */
+.tag {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin: 2px;
+  display: inline-block;
+}
+
+/* Dark mode theme */
+body.dark .tag {
+  background-color: #333;
+  color: #fff;  /* bright text for dark background */
+  border: 1px solid #555;
+}
+
+/* Light mode theme */
+body.light .tag {
+  background-color: #eee;
+  color: #333;  /* dark text for light background */
+  border: 1px solid #ccc;
+}
+
+.tag.empty {
+  background-color: #ddd;
+  color: #555;
+  cursor: default;
+}
+
+#copyAllBtn {
+  margin-top: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background-color: #66ccff;
+  color: #000;
+}
+body.dark #copyAllBtn {
+  background-color: #444;
+  color: #fff;
+}
+
+    body.light button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+    }
+    body.light button:hover { background-color: #005fcc; }
+    body.light li { background-color: #fff; border-color: #ddd; }
+    body.light li a { color: #007bff; }
+    body.light li button {
+      background-color: #ffc2c2;
+      color: #333;
+    }
+    body.light li button:hover { background-color: #ff9494; }
+
+    body.dark {
+      background-color: #121212;
+      color: #f1f1f1;
+    }
+
+    .star-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+    body.dark h3 { color: #66ccff; }
+    body.dark input, body.dark select {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+      border-color: #333;
+    }
+    body.dark button {
+      background-color: #66ccff;
+      color: #000;
+      border: none;
+    }
+    body.dark button:hover { background-color: #4eb8e8; }
+    body.dark li { background-color: #1e1e1e; border-color: #333; }
+    body.dark li a { color: #66ccff; }
+    body.dark li button {
+      background-color: #ff4d4d;
+      color: #fff;
+    }
+    body.dark li button:hover { background-color: #e03b3b; }
+    #toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 9999;
+}
+
+#toast.show {
+  opacity: 1;
+}
+
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 999;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    body.light .delete-btn {
+  background-color: #ffc2c2;
+  color: #333;
+}
+body.light .delete-btn:hover {
+  background-color: #ff9494;
+}
+
+body.dark .delete-btn {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+body.dark .delete-btn:hover {
+  background-color: #e03b3b;
+}
+
+    #toast.show {
+      display: block;
+      opacity: 0.95;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="dark">
+  <h3>Keyword Saver</h3>
+
+  <div style="text-align: right; margin-bottom: 10px;">
+    <div class="toggle-container">
+      <label class="switch">
+        <input type="checkbox" id="themeToggle" />
+        <span class="slider round"></span>
+      </label>
+      <span style="font-size: 12px;">Dark Mode</span>
+    </div>
+    
+  </div>
+
+  <input type="text" id="keyword" placeholder="Keyword" />
+  <input type="text" id="url" placeholder="URL" />
+  <input type="text" id="tags" placeholder="Tags (optional)" />
+  <button id="saveBtn">Save</button>
+  <button id="copyAllBtn">📋 Copy All</button>
+
+  <input type="text" id="search" placeholder="Search by keyword or tag" />
+  <select id="sortSelect">
+    <option value="newest">Newest</option>
+    <option value="oldest">Oldest</option>
+    <option value="az">A–Z</option>
+    <option value="za">Z–A</option>
+  </select>
+  <button id="clearFilterBtn" style="display:none;">Clear Filter</button>
+  <hr />
+  <section id="exportSection">
+    <h3>Export</h3>
+    <div style="margin-bottom: 6px;">
+      <label for="exportFilename">Filename:</label>
+      <input type="text" id="exportFilename" placeholder="keywords" style="margin-left: 8px; width: 140px;" />
+    </div>
+    
+    <div>
+      <label for="exportFormat">Format:</label>
+      <select id="exportFormat" style="margin-left: 8px;">
+        <option value="markdown">Markdown (.md)</option>
+        <option value="json">JSON (.json)</option>
+      </select>
+    </div>
+    <hr />
+<section id="importSection">
+  <h3>Import Keywords</h3>
+  <input type="file" id="importFile" accept=".json" />
+  <button id="importBtn">Import</button>
+</section>
+
+    <button id="exportBtn">Export</button>
+
+    <button id="previewBtn" style="margin-top: 6px;">👀 Preview</button>
+
+<textarea id="exportPreview" rows="10" readonly style="display: none; width: 100%; margin-top: 10px; font-family: monospace; font-size: 12px;"></textarea>
+
+  </section>
+  <hr />
+<section id="cloudSection">
+  <h3>Cloud Backup</h3>
+  <button id="cloudBackupBtn">☁️ Backup to Cloud</button>
+  <button id="cloudRestoreBtn">☁️ Restore from File</button>
+</section>
+
+  <hr />
+  <hr />
+  <div style="margin-top: 10px;">
+    
+    
+    <button id="debugRefreshBtn" style="display:none;">🔄 Refresh</button>
+    <hr />
+    <div style="margin-top: 10px;">
+      <button id="debugToggleBtn">Show Sync Data</button>
+      <button id="debugRefreshBtn" style="display:none;">🔄 Refresh</button>
+      <button id="debugClearBtn" style="display:none; background: #d9534f; color: white;">🗑️ Clear All</button>
+    </div>
+    <pre id="syncDebugBox" style="display:none; max-height: 200px; overflow-y: auto; font-size: 12px; background: #222; color: #eee; padding: 10px; border-radius: 5px;"></pre>
+    
+  </div>
+  <pre id="syncDebugBox" style="display:none; max-height: 200px; overflow-y: auto; font-size: 12px; background: #222; color: #eee; padding: 10px; border-radius: 5px;"></pre>
+  
+<pre id="syncDebugBox" style="display:none; max-height: 200px; overflow-y: auto; font-size: 12px; background: #222; color: #eee; padding: 10px; border-radius: 5px;"></pre>
+
+
+  <ul id="keywordList"></ul>
+  <div id="toast">Saved!</div>
+  <script src="popup.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <link rel="manifest" href="manifest.json" /> <meta name="theme-color" content="#121212" /> <link rel="apple-touch-icon" href="icon.png" />
+  <title>Keyword Saver</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" href="icon-192.png" />
+<meta name="theme-color" content="#121212" />
+<link rel="apple-touch-icon" href="icon.png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="light">
+  <header class="app-header">
+    <h1><span class="logo-icon">📌</span> Keyword Saver</h1>
+    <label class="theme-toggle">
+      <input type="checkbox" id="themeToggle" />
+      <span class="toggle-slider"></span>
+    </label>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Add Keyword</h2>
+      <input type="text" id="keyword" placeholder="Keyword">
+      <input type="url" id="url" placeholder="URL">
+      <input type="text" id="tags" placeholder="Tags (comma-separated)">
+      <button id="saveBtn">Save</button>
+    </section>
+
+    <section class="card">
+      <h2>Search & Sort</h2>
+      <input type="text" id="search" placeholder="Search by keyword or tag">
+      <select id="sortSelect">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+        <option value="az">A-Z</option>
+        <option value="za">Z-A</option>
+      </select>
+    </section>
+
+    <section class="card">
+      <h2>Export</h2>
+      <input type="text" id="exportFilename" placeholder="Filename">
+      <select id="exportFormat">
+        <option value="markdown">Markdown (.md)</option>
+        <option value="json">JSON (.json)</option>
+      </select>
+      <button id="exportBtn">Export</button>
+      <button id="previewBtn">Preview</button>
+      <textarea id="exportPreview" rows="5" readonly style="display:none;"></textarea>
+    </section>
+
+    <section class="card">
+      <h2>Import Keywords</h2>
+      <input type="file" id="importFile" accept=".json" />
+      <button id="importBtn">Import</button>
+    </section>
+
+    <section class="card">
+      <h2>☁️ Cloud Backup</h2>
+      <button id="cloudBackupBtn">☁️ Backup to Cloud</button>
+      <button id="cloudRestoreBtn">📂 Restore from File</button>
+    </section>
+
+    <section class="card" id="keywordList">
+      <!-- Keyword cards will be dynamically injected here -->
+    </section>
+    <section class="card">
+      <h2>🧪 Debug Local Storage</h2>
+      <button id="debugBtn">Show Local Data</button>
+      <pre id="syncDebugBox" style="display:none; background:#111; color:#0f0; padding:10px; border-radius:6px; max-height:200px; overflow:auto;"></pre>
+    </section>
+    
+  </main>
+
+  <div id="toast">Saved!</div>
+  <script src="script.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("service-worker.js")
+        .then(() => console.log("✅ Service Worker registered"))
+        .catch((err) => console.error("Service Worker failed", err));
+    }
+  </script>
+  
+</body>
+</html>
+
+
