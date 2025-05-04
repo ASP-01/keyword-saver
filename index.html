@@ -80,7 +80,7 @@
   </main>
 
   <div id="toast">Saved!</div>
-  <script src="script.js"></script>
+ 
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
@@ -89,7 +89,8 @@
         .catch((err) => console.error("Service Worker failed", err));
     }
   </script>
-  
+   <script src="script.js"></script>
+  <div id="toast" class="toast"></div>
 </body>
 </html>
 
