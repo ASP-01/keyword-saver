@@ -64,9 +64,10 @@
     <section class="card">
       <h2>☁️ Cloud Backup</h2>
       <input type="file" id="importFile" accept=".json" style="display:none" />
-      <button id="cloudBackupBtn">☁️ Backup to Cloud</button>
-      <button id="cloudRestoreBtn">📂 Restore from File</button>
-    </section>
+<button id="cloudBackupBtn">☁️ Backup to Cloud</button>
+<button id="cloudRestoreBtn">📂 Restore from File</button>
+
+          </section>
 
     <section class="card" id="keywordList">
       <!-- Keyword cards will be dynamically injected here -->
@@ -80,7 +81,7 @@
   </main>
 
   <div id="toast">Saved!</div>
- 
+  <script src="script.js"></script>
   <script>
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
@@ -89,8 +90,7 @@
         .catch((err) => console.error("Service Worker failed", err));
     }
   </script>
-   <script src="script.js"></script>
-  <div id="toast" class="toast"></div>
+  
 </body>
 </html>
 
