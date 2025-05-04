@@ -241,39 +241,13 @@ document.addEventListener("DOMContentLoaded", () => {
     debugBox.textContent = JSON.stringify(data, null, 2);
     debugBox.style.display = debugBox.style.display === "block" ? "none" : "block";
   });
-  document.getElementById("cloudBackupBtn").addEventListener("click", () => {
+  // ✅ Backup to Cloud (downloads .json)
+document.getElementById("cloudBackupBtn").addEventListener("click", () => {
   const data = JSON.parse(localStorage.getItem("keywords") || "[]");
   if (data.length === 0) {
     showToast("No keywords to backup");
     return;
   }
-    document.getElementById("importFile").addEventListener("change", () => {
-  const fileInput = document.getElementById("importFile");
-  const file = fileInput.files[0];
-  if (!file) {
-    showToast("Please select a file");
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const imported = JSON.parse(e.target.result);
-      if (!Array.isArray(imported)) {
-        showToast("Invalid file format");
-        return;
-      }
-      const existing = JSON.parse(localStorage.getItem("keywords") || "[]");
-      const merged = [...existing, ...imported];
-      localStorage.setItem("keywords", JSON.stringify(merged));
-      showToast("Imported successfully");
-      loadKeywords();
-    } catch (err) {
-      showToast("Error importing file");
-    }
-  };
-  reader.readAsText(file);
-});
-
 
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
