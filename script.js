@@ -263,6 +263,27 @@ document.getElementById("cloudBackupBtn").addEventListener("click", () => {
 document.getElementById("cloudRestoreBtn").addEventListener("click", () => {
   document.getElementById("importFile").click(); // Triggers the import file input
 });
+document.getElementById("importFile").addEventListener("change", () => {
+  const file = document.getElementById("importFile").files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      const existing = JSON.parse(localStorage.getItem("keywords") || "[]");
+      const merged = [...existing, ...imported];
+      localStorage.setItem("keywords", JSON.stringify(merged));
+      showToast("Imported successfully");
+      loadKeywords();
+    } catch (err) {
+      showToast("Error importing file");
+    }
+  };
+  reader.readAsText(file);
+});
+document.getElementById("importBtn").addEventListener("click", () => {
+  document.getElementById("importFile").click();
+});
 
 
   // ✅ Load first time
